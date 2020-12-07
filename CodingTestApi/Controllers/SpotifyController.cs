@@ -15,7 +15,7 @@ namespace CodingTestApi.Controllers
         }
 
         [HttpGet("artist")]
-        public async Task<ActionResult<Artist>> GetArtist(string artistName)
+        public async Task<ActionResult<Artist>> GetArtistAsync(string artistName)
         {
             var artist = await _spotifySearch.GetSingleMatchingArtistAsync(artistName);
 

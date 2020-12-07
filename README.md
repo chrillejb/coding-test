@@ -18,6 +18,12 @@ dotnet user-secrets set "Spotify:ClientSecret" "<CLIENT_SECRET>"
 
 ## Running the API
 
+### Prerequisites
+
+* .NET 5 installed
+
+### Run via dotnet CLI
+
 Change directory to the CodingTestApi directory and execute the following dotnet CLI command:
 
 ```
