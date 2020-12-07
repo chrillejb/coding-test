@@ -7,14 +7,19 @@ namespace CodingTestApi.Controllers
     [ApiController]
     public class SpotifyController : ControllerBase
     {
+        private readonly SpotifySearch _spotifySearch;
+
+        public SpotifyController(SpotifySearch spotifySearch)
+        {
+            _spotifySearch = spotifySearch;
+        }
+
         [HttpGet("artist")]
         public async Task<ActionResult<Artist>> GetArtist(string artistName)
         {
-            return Ok(new Artist
-            {
-                ArtistId = "123",
-                ArtistName = "hello artist"
-            });
+            var artist = await _spotifySearch.GetSingleMatchingArtistAsync(artistName);
+
+            return Ok(artist);
         }
     }
 }
