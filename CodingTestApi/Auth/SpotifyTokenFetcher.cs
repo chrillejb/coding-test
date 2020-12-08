@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 ///<summary>
 /// Used to fetch bearer tokens for the Spotify API.
@@ -51,7 +51,8 @@ public class SpotifyTokenFetcher
 
         var httpResponse = await _httpClient.SendAsync(httpRequest);
         var stringResponse = await httpResponse.Content.ReadAsStringAsync();
-        dynamic jsonObject = JObject.Parse(stringResponse);
-        return jsonObject.access_token.Value;
+        
+        var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(stringResponse);
+        return tokenResponse.AccessToken;
     }
 }
