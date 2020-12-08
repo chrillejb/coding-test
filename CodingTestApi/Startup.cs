@@ -32,7 +32,7 @@ namespace CodingTestApi
 
             // TODO HttpClient for token fetcher as well
             services.AddTransient<SpotifyTokenFetcher>();
-            services.AddHttpClient<SpotifySearch>(client =>
+            services.AddHttpClient<SpotifySearchService>(client =>
             {
                 client.BaseAddress = new Uri(Configuration["Urls:SpotifySearchUrl"]);
             });

@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.WebUtilities;
 
 namespace CodingTestApi.Services
 {
-    public class SpotifySearch
+    public class SpotifySearchService
     {
         private readonly HttpClient _httpClient;
         private readonly SpotifyTokenFetcher _spotifyTokenFetcher;
 
-        public SpotifySearch(HttpClient httpClient, SpotifyTokenFetcher spotifyTokenFetcher)
+        public SpotifySearchService(HttpClient httpClient, SpotifyTokenFetcher spotifyTokenFetcher)
         {
             _httpClient = httpClient;
             _spotifyTokenFetcher = spotifyTokenFetcher;
