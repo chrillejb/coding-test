@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using CodingTestApi.Adapters;
 using CodingTestApi.Auth;
 using CodingTestApi.Services;
@@ -29,6 +30,7 @@ namespace CodingTestApi
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CodingTestApi", Version = "v1" });
+                c.IncludeXmlComments(Path.Combine(Directory.GetParent(typeof(Program).Assembly.Location).FullName, "CodingTestApi.xml"));
             });
 
             services.AddHttpClient<SpotifyTokenFetcher>(client =>
