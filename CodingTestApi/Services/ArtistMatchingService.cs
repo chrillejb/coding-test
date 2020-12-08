@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using CodingTestApi.Adapters;
+using CodingTestApi.Exceptions;
 using CodingTestApi.Extensions;
 using CodingTestApi.Models;
 
@@ -26,11 +27,12 @@ namespace CodingTestApi.Services
         {
             // TODO add case for empty "items" from API response => 404
             var artistName = artistNameQuery.ToArtistString();
-            
+
             var artistsResponse = await _spotifySearchAdapter.GetArtistsAsync(artistName);
 
-            var matchingArtist = artistsResponse.Artists.Items.First(
-                artistItem => artistItem.Name.ToArtistString().Equals(artistName));
+            var matchingArtist = artistsResponse.Artists.Items.FirstOrDefault(
+                artistItem => artistItem.Name.ToArtistString().Equals(artistName)) ?? 
+                throw new NoMatchingArtistException("Could not find matching artist.");
 
             return new Artist
             {
