@@ -1,26 +1,55 @@
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using CodingTestApi.Auth;
 using CodingTestApi.Models;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace CodingTestApi.Services
 {
     public class SpotifySearch
     {
+        private readonly HttpClient _httpClient;
         private readonly SpotifyTokenFetcher _spotifyTokenFetcher;
 
-        public SpotifySearch(SpotifyTokenFetcher spotifyTokenFetcher)
+        public SpotifySearch(HttpClient httpClient, SpotifyTokenFetcher spotifyTokenFetcher)
         {
+            _httpClient = httpClient;
             _spotifyTokenFetcher = spotifyTokenFetcher;
         }
 
-        public async Task<Artist> GetSingleMatchingArtistAsync(string queryArtistName)
+        /// <summary>
+        /// Performs a search using the Spotify API for a maching artist using <see paramref="artistNameQuery"/>.
+        /// The method will ignore white spaces and punctionation in the query.
+        /// The query is also insensitive.
+        /// </summary>
+        /// <param name="artistNameQuery">The string used to query the Spotify API.</param>
+        /// <returns>The single matching artist.</returns>
+        public async Task<Artist> GetSingleMatchingArtistAsync(string artistNameQuery)
         {
             var token = await _spotifyTokenFetcher.FetchTokenAsync();
-            // TODO logic for getting from Spotify API (url from config?)
-            // TODO matching with search argument
-            // TODO return artist name as fetched from Spotify search
+
+            var queryString = new Dictionary<string, string>()
+            {   
+                // TODO extenstion methods! (stripWhiteSpaces().stripPunctuationChars())
+                {"q", artistNameQuery},
+                {"type", "artist"}
+            };
+
+            var httpRequestMessage = new HttpRequestMessage
+            {
+                RequestUri = new Uri(QueryHelpers.AddQueryString(_httpClient.BaseAddress.ToString(), queryString)),
+                Method = HttpMethod.Get
+            };
+            httpRequestMessage.Headers.Add("Authorization", $"Bearer {token}");
 
             // TODO add case for empty "items" from API response => 404
+            var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
+
+            // TODO match with search argument
+            // TODO return artist name (and id) as fetched from Spotify search
+
             return new Artist
             {
                 ArtistId = "123",

@@ -1,3 +1,4 @@
+using System;
 using CodingTestApi.Auth;
 using CodingTestApi.Services;
 using Microsoft.AspNetCore.Builder;
@@ -29,8 +30,12 @@ namespace CodingTestApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CodingTestApi", Version = "v1" });
             });
 
+            // TODO HttpClient for token fetcher as well
             services.AddTransient<SpotifyTokenFetcher>();
-            services.AddTransient<SpotifySearch>();
+            services.AddHttpClient<SpotifySearch>(client =>
+            {
+                client.BaseAddress = new Uri(Configuration["Urls:SpotifySearchUrl"]);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

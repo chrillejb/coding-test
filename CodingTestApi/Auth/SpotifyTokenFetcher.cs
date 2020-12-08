@@ -45,15 +45,15 @@ namespace CodingTestApi.Auth
                 RequestUri = new Uri(_spotifyTokenUrl),
                 Method = HttpMethod.Post,
                 Content = new FormUrlEncodedContent(new Dictionary<string, string>
-            {
-                {"grant_type", "client_credentials"}
-            })
+                {
+                    {"grant_type", "client_credentials"}
+                })
             };
-            string basicAuthCreds = Convert.ToBase64String(Encoding.GetEncoding("utf-8").GetBytes($"{_clientId}:{_clientSecret}"));
+            string basicAuthCreds = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{_clientId}:{_clientSecret}"));
             httpRequest.Headers.Add("Authorization", $"Basic {basicAuthCreds}");
 
-            var httpResponse = await _httpClient.SendAsync(httpRequest);
-            var stringResponse = await httpResponse.Content.ReadAsStringAsync();
+            var httpResponseMessage = await _httpClient.SendAsync(httpRequest);
+            var stringResponse = await httpResponseMessage.Content.ReadAsStringAsync();
 
             var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(stringResponse);
             return tokenResponse.AccessToken;
