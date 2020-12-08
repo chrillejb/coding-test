@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CodingTestApi.Adapters;
+using CodingTestApi.Exceptions;
 using CodingTestApi.Models.Spotify;
 using CodingTestApi.Services;
 using FakeItEasy;
@@ -64,10 +65,17 @@ namespace CodingTestApiTests
 
         [TestCase("The katy perry")]
         [TestCase("Katy perry 2")]
-        public void MatchArtist_WithInvalidQueries_ThrowsNoMatchingArtistException(string query)
+        public void MatchArtist_WithNonMatchingQueries_ThrowsNoMatchingArtistException(string query)
         {
-            // TODO implement exception and write test
-            Assert.Fail();
+            // Arrange
+            A.CallTo(() => _fakeSpotifySearchAdapter.GetArtistsAsync(A<string>._))
+                .Returns(Task.FromResult(_validArtistsResponse));
+
+            // Act/Assert
+            Should.Throw<NoMatchingArtistException>(async () =>
+            {
+                await _sut.GetSingleMatchingArtistAsync(query);
+            });
         }
     }
 }
