@@ -2,8 +2,8 @@ namespace CodingTestApi.Models
 {
     public class Artist
     {
-        public string ArtistId { get; set; }
+        public string Id { get; set; }
 
-        public string ArtistName { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -16,14 +16,12 @@ namespace CodingTestApi.Auth
     {
         private readonly string _clientId;
         private readonly string _clientSecret;
-        private readonly string _spotifyTokenUrl;
         private readonly HttpClient _httpClient;
 
-        public SpotifyTokenFetcher(IConfiguration configuration)
+        public SpotifyTokenFetcher(HttpClient httpClient, IConfiguration configuration)
         {
             _clientId = configuration["Spotify:ClientId"];
             _clientSecret = configuration["Spotify:ClientSecret"];
-            _spotifyTokenUrl = configuration["Urls:SpotifyTokenUrl"];
 
             if (string.IsNullOrEmpty(_clientId) ||
                 string.IsNullOrEmpty(_clientSecret))
@@ -31,7 +29,7 @@ namespace CodingTestApi.Auth
                 throw new Exception($"ClientId and ClientSecret may not be unset or empty. Please make sure the credentials have been configured correctly.");
             }
 
-            _httpClient = new HttpClient();
+            _httpClient = httpClient;
         }
 
         ///<summary>
@@ -42,7 +40,7 @@ namespace CodingTestApi.Auth
         {
             var httpRequest = new HttpRequestMessage
             {
-                RequestUri = new Uri(_spotifyTokenUrl),
+                RequestUri = _httpClient.BaseAddress,
                 Method = HttpMethod.Post,
                 Content = new FormUrlEncodedContent(new Dictionary<string, string>
                 {
