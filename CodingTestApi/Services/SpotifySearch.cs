@@ -1,26 +1,31 @@
 using System.Threading.Tasks;
+using CodingTestApi.Auth;
+using CodingTestApi.Models;
 
-public class SpotifySearch
+namespace CodingTestApi.Services
 {
-    private readonly SpotifyTokenFetcher _spotifyTokenFetcher;
-
-    public SpotifySearch(SpotifyTokenFetcher spotifyTokenFetcher)
+    public class SpotifySearch
     {
-        _spotifyTokenFetcher = spotifyTokenFetcher;
-    }
+        private readonly SpotifyTokenFetcher _spotifyTokenFetcher;
 
-    public async Task<Artist> GetSingleMatchingArtistAsync(string queryArtistName)
-    {
-        var token = await _spotifyTokenFetcher.FetchTokenAsync();
-        // TODO logic for getting from Spotify API (url from config?)
-        // TODO matching with search argument
-        // TODO return artist name as fetched from Spotify search
-
-        // TODO add case for empty "items" from API response => 404
-        return new Artist
+        public SpotifySearch(SpotifyTokenFetcher spotifyTokenFetcher)
         {
-            ArtistId = "123",
-            ArtistName = "hello artist"
-        };
+            _spotifyTokenFetcher = spotifyTokenFetcher;
+        }
+
+        public async Task<Artist> GetSingleMatchingArtistAsync(string queryArtistName)
+        {
+            var token = await _spotifyTokenFetcher.FetchTokenAsync();
+            // TODO logic for getting from Spotify API (url from config?)
+            // TODO matching with search argument
+            // TODO return artist name as fetched from Spotify search
+
+            // TODO add case for empty "items" from API response => 404
+            return new Artist
+            {
+                ArtistId = "123",
+                ArtistName = "hello artist"
+            };
+        }
     }
 }

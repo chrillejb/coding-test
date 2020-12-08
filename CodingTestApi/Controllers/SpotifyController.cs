@@ -1,4 +1,6 @@
 using System.Threading.Tasks;
+using CodingTestApi.Models;
+using CodingTestApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodingTestApi.Controllers

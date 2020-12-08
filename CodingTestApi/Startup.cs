@@ -1,3 +1,5 @@
+using CodingTestApi.Auth;
+using CodingTestApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Routing;

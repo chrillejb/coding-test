@@ -1,6 +1,9 @@
-public class Artist 
+namespace CodingTestApi.Models
 {
-    public string ArtistId { get; set; }
+    public class Artist
+    {
+        public string ArtistId { get; set; }
 
-    public string ArtistName { get; set; }
+        public string ArtistName { get; set; }
+    }
 }
