@@ -24,12 +24,16 @@ namespace CodingTestApi.Controllers
         /// <param name="artistName"></param>
         /// <response code="200">Successful operation.</response>
         /// <response code="204">The request was received, but no match was found.</response>
+        /// <response code="400">The request was invalid.</response>
         [HttpGet("artist")]
         [ProducesResponseType(200, Type = typeof(Artist))]
         [ProducesResponseType(204)]
         public async Task<ActionResult<Artist>> GetArtistAsync(string artistName)
         {
-            // TODO null check => 400
+            if(string.IsNullOrEmpty(artistName))
+            {
+                return BadRequest($"{nameof(artistName)} may not be null or empty");
+            }
 
             try
             {
