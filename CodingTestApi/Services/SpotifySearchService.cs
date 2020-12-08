@@ -4,7 +4,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using CodingTestApi.Auth;
 using CodingTestApi.Models;
+using CodingTestApi.Models.Spotify;
 using Microsoft.AspNetCore.WebUtilities;
+using Newtonsoft.Json;
 
 namespace CodingTestApi.Services
 {
@@ -47,6 +49,8 @@ namespace CodingTestApi.Services
             // TODO add case for empty "items" from API response => 404
             var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
 
+            var artistsSearchResponse = JsonConvert.DeserializeObject<ArtistsSearchResponse>(
+                await httpResponseMessage.Content.ReadAsStringAsync());
             // TODO match with search argument
             // TODO return artist name (and id) as fetched from Spotify search
 
