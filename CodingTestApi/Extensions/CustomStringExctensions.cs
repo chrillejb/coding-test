@@ -13,7 +13,7 @@ namespace CodingTestApi.Extensions
         /// <param name="str">The string to convert</param>
         /// <returns>A new <see langword="string"/> without whitespaces and punctuation characters in all lower case.</returns>
         public static string ToArtistString(this string str) =>
-            new string(str.ToCharArray().Where(c => !Char.IsPunctuation(c) || !Char.IsPunctuation(c)).ToArray())
+            new string(str.ToCharArray().Where(c => !Char.IsPunctuation(c) && !Char.IsWhiteSpace(c)).ToArray())
                 .ToLowerInvariant();
     }
 }

@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using CodingTestApi.Adapters;
 using CodingTestApi.Extensions;
@@ -24,15 +25,17 @@ namespace CodingTestApi.Services
         public async Task<Artist> GetSingleMatchingArtistAsync(string artistNameQuery)
         {
             // TODO add case for empty "items" from API response => 404
-            var artistsResponse = await _spotifySearchAdapter.GetArtistsAsync(artistNameQuery.ToArtistString());
+            var artistName = artistNameQuery.ToArtistString();
+            
+            var artistsResponse = await _spotifySearchAdapter.GetArtistsAsync(artistName);
 
-            // TODO match with search argument
-            // TODO return artist name (and id) as fetched from Spotify search
+            var matchingArtist = artistsResponse.Artists.Items.First(
+                artistItem => artistItem.Name.ToArtistString().Equals(artistName));
 
             return new Artist
             {
-                Id = "123",
-                Name = "hello artist"
+                Id = matchingArtist.Id,
+                Name = matchingArtist.Name
             };
         }
     }
