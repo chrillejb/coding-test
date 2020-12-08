@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using CodingTestApi.Adapters;
+using CodingTestApi.Extensions;
 using CodingTestApi.Models;
 
 namespace CodingTestApi.Services
@@ -22,9 +23,8 @@ namespace CodingTestApi.Services
         /// <returns>The single matching artist.</returns>
         public async Task<Artist> GetSingleMatchingArtistAsync(string artistNameQuery)
         {
-            // TODO extenstion methods! (stripWhiteSpaces().stripPunctuationChars())
             // TODO add case for empty "items" from API response => 404
-            var artistsResponse = await _spotifySearchAdapter.GetArtistsAsync(artistNameQuery);
+            var artistsResponse = await _spotifySearchAdapter.GetArtistsAsync(artistNameQuery.ToArtistString());
 
             // TODO match with search argument
             // TODO return artist name (and id) as fetched from Spotify search
