@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace CodingTestApi.Extensions
 {
-    public static class CustomStringExctensions
+    public static class CustomStringExtensions
     {
         /// <summary>
         /// Converts the <see langword="string"/> <see paramref="str"/> to a string
