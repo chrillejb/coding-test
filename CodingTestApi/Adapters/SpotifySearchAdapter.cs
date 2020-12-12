@@ -38,7 +38,8 @@ namespace CodingTestApi.Adapters
             httpRequestMessage.Headers.Add("Authorization", $"Bearer {token}");
             
             var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
-
+            httpResponseMessage.EnsureSuccessStatusCode();
+            
             return JsonConvert.DeserializeObject<ArtistsSearchResponse>(
                 await httpResponseMessage.Content.ReadAsStringAsync());
         }

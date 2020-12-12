@@ -26,7 +26,7 @@ namespace CodingTestApi.Auth
             if (string.IsNullOrEmpty(_clientId) ||
                 string.IsNullOrEmpty(_clientSecret))
             {
-                throw new Exception($"ClientId and ClientSecret may not be unset or empty. Please make sure the credentials have been configured correctly.");
+                throw new Exception($"({nameof(SpotifyTokenFetcher)}) Client ID and Client Secret may not be unset or empty. Please make sure the credentials have been configured correctly.");
             }
 
             _httpClient = httpClient;
@@ -51,6 +51,7 @@ namespace CodingTestApi.Auth
             httpRequest.Headers.Add("Authorization", $"Basic {basicAuthCreds}");
 
             var httpResponseMessage = await _httpClient.SendAsync(httpRequest);
+            httpResponseMessage.EnsureSuccessStatusCode();
             var stringResponse = await httpResponseMessage.Content.ReadAsStringAsync();
 
             var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(stringResponse);
