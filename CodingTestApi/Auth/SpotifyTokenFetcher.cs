@@ -17,8 +17,9 @@ namespace CodingTestApi.Auth
         private readonly string _clientId;
         private readonly string _clientSecret;
         private readonly HttpClient _httpClient;
+        private readonly SpotifyTokenHolder _tokenHolder;
 
-        public SpotifyTokenFetcher(HttpClient httpClient, IConfiguration configuration)
+        public SpotifyTokenFetcher(HttpClient httpClient, IConfiguration configuration, SpotifyTokenHolder tokenHolder)
         {
             _clientId = configuration["Spotify:ClientId"];
             _clientSecret = configuration["Spotify:ClientSecret"];
@@ -30,6 +31,7 @@ namespace CodingTestApi.Auth
             }
 
             _httpClient = httpClient;
+            _tokenHolder = tokenHolder;
         }
 
         ///<summary>
@@ -38,6 +40,11 @@ namespace CodingTestApi.Auth
         ///<returns>A bearer token that can be used for accessing the Spotify API.</returns>
         public async Task<string> FetchTokenAsync()
         {
+            if(!_tokenHolder.NeedsRefresh())
+            {
+                return _tokenHolder.CurrentToken;
+            }
+
             var httpRequest = new HttpRequestMessage
             {
                 RequestUri = _httpClient.BaseAddress,
@@ -54,6 +61,11 @@ namespace CodingTestApi.Auth
             var stringResponse = await httpResponseMessage.Content.ReadAsStringAsync();
 
             var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(stringResponse);
+
+            _tokenHolder.LastFetched = DateTime.Now;
+            _tokenHolder.CurrentToken = tokenResponse.AccessToken;
+            _tokenHolder.ExpirationInSeconds = tokenResponse.ExpiresIn;
+
             return tokenResponse.AccessToken;
         }
     }

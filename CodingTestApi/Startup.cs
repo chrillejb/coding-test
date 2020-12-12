@@ -33,6 +33,7 @@ namespace CodingTestApi
                 c.IncludeXmlComments(Path.Combine(Directory.GetParent(typeof(Program).Assembly.Location).FullName, "CodingTestApi.xml"));
             });
 
+            services.AddSingleton<SpotifyTokenHolder>();
             services.AddHttpClient<SpotifyTokenFetcher>(client =>
             {
                 client.BaseAddress = new Uri(Configuration["Urls:SpotifyTokenUrl"]);
