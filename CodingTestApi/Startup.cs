@@ -54,6 +54,8 @@ namespace CodingTestApi
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CodingTestApi v1"));
             }
 
+            app.UseExceptionHandler("/Error");
+
             app.UseHttpsRedirection();
 
             app.UseRouting();

@@ -25,7 +25,6 @@ namespace CodingTestApi.Services
         /// <returns>The single matching artist.</returns>
         public async Task<Artist> GetSingleMatchingArtistAsync(string artistNameQuery)
         {
-            // TODO add case for empty "items" from API response => 404
             var artistString = artistNameQuery.ToArtistString();
 
             var artistsResponse = await _spotifySearchAdapter.GetArtistsAsync(artistString);
