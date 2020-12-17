@@ -25,13 +25,12 @@ namespace CodingTestApi.Services
         /// <returns>The single matching artist.</returns>
         public async Task<Artist> GetSingleMatchingArtistAsync(string artistNameQuery)
         {
-            // TODO add case for empty "items" from API response => 404
-            var artistName = artistNameQuery.ToArtistString();
+            var artistString = artistNameQuery.ToArtistString();
 
-            var artistsResponse = await _spotifySearchAdapter.GetArtistsAsync(artistName);
+            var artistsResponse = await _spotifySearchAdapter.GetArtistsAsync(artistString);
 
             var matchingArtist = artistsResponse.Artists.Items.FirstOrDefault(
-                artistItem => artistItem.Name.ToArtistString().Equals(artistName)) ?? 
+                artistItem => artistItem.Name.ToArtistString().Equals(artistString)) ?? 
                 throw new NoMatchingArtistException("Could not find matching artist.");
 
             return new Artist

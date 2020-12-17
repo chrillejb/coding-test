@@ -10,7 +10,7 @@ using Shouldly;
 
 namespace CodingTestApiTests
 {
-    public class SpotifySearchServiceTests
+    public class ArtistMatchingServiceTests
     {
         private ArtistMatchingService _sut; // System Under Test
         private ISpotifySearchAdapter _fakeSpotifySearchAdapter = A.Fake<ISpotifySearchAdapter>();

@@ -25,6 +25,7 @@ namespace CodingTestApi.Controllers
         /// <response code="200">Successful operation.</response>
         /// <response code="204">The request was received, but no match was found.</response>
         /// <response code="400">The request was invalid.</response>
+        /// <response code="500">Error within the application.</response>
         [HttpGet("artist")]
         [ProducesResponseType(200, Type = typeof(Artist))]
         [ProducesResponseType(204)]
